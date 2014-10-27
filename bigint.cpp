@@ -35,7 +35,9 @@ BigInt::BigInt(string value, unsigned base)
 
 BigInt::BigInt(BigInt const &rhs)
 {
-(void) rhs;
+    digits = rhs.digits;
+    number = new HalfInt[digits];
+    memcpy(number, rhs.number, digits * sizeof(HalfInt));
 }
 
 
@@ -54,6 +56,8 @@ return *this;
 
 BigInt &BigInt::operator+=(BigInt const &rhs)
 {
+    if (rhs == 0) return *this;
+    if (this == &rhs) return *this *= 2;
     unsigned int count;
     HalfInt carry = 0;
     ensure_size(rhs.digits + 1);
@@ -66,7 +70,7 @@ BigInt &BigInt::operator+=(BigInt const &rhs)
             FullInt full_result = (FullInt) left + (FullInt) right
                                 + (FullInt) carry;
             carry = full_result >> ((sizeof(FullInt) - sizeof(HalfInt)) * 8);
-            cout << carry << endl;
+            cerr << carry << endl;
         } else {
             carry = 0;
         }
@@ -150,8 +154,13 @@ return *this;
 
 bool BigInt::operator==(BigInt rhs) const
 {
-(void) rhs;
-return false;
+    if  (digits != rhs.digits) return false;
+    for (int i = digits - 1; i >= 0; --i) {
+        if (number[i] != rhs.number[i]) {
+            return false;
+        }
+    }
+    return true;
 }
 
 
@@ -159,12 +168,6 @@ bool BigInt::operator<(BigInt rhs) const
 {
 (void) rhs;
 return false;
-}
-
-
-BigInt::operator int() const
-{
-    return number[0];
 }
 
 

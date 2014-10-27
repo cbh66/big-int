@@ -37,7 +37,6 @@ public:
     bool operator==(BigInt rhs) const;
     bool operator<(BigInt rhs) const;
 
-    operator int() const;
     operator std::string() const;
 private:
     unsigned digits;
