@@ -2,10 +2,13 @@
 #define CBH_BIGINT_H_INCLUDED
 #include <iostream>
 
+typedef unsigned HalfInt;
+typedef unsigned long FullInt;
+
 class BigInt
 {
 public:
-    BigInt(unsigned long value = 0);
+    BigInt(int value = 0);
     BigInt(std::string value, unsigned base = 0);
     BigInt(BigInt const &rhs);
     ~BigInt();
@@ -34,11 +37,13 @@ public:
     bool operator==(BigInt rhs) const;
     bool operator<(BigInt rhs) const;
 
-    operator long() const;
+    operator int() const;
     operator std::string() const;
 private:
-    unsigned long digits;
-    long *number;
+    unsigned digits;
+    HalfInt *number;
+    bool is_negative;
+    void ensure_size(unsigned size);
 };
 
 
