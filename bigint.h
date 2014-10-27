@@ -1,7 +1,21 @@
+/*  BigInt.h  -  a class for arbitrary-length integers in C++
+ *  Written by: Colin Hamilton, Tufts University
+ *
+ *  This class defines operations on a class whose precision, in theory, is
+ *  limited only by the amount of memory avaiable.
+ *  In practice, they are limited to 2^(2^32) bits of precision (10^9 digits)
+ */
+
 #ifndef CBH_BIGINT_H_INCLUDED
 #define CBH_BIGINT_H_INCLUDED
 #include <iostream>
-
+/*  HalfInt is the type of each digit as it is stored.
+ *  FullInt is the type of the "scratchpad" variables, used for intermediate
+ *    calculations.  For multiplication to work,
+ *      2^size(FullInt) >= (2^size(HalfInt) - 1) * 2^size(HalfInt)
+ *    must be true.  This is true when FullInt has twice as many bits
+ *    as HalfInt.
+ */
 typedef unsigned HalfInt;
 typedef unsigned long FullInt;
 

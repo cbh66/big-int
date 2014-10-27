@@ -163,11 +163,21 @@ bool BigInt::operator==(BigInt rhs) const
     return true;
 }
 
-
+/*  Checks first if the number of digits of the two are equal.
+ *    If not, the one with more digits is greater.
+ *    If so, it goes through each digit, from most significant to least.
+ *      For each, if the digits are not equal, then the one with the greater
+ *      digit is greater.  Further comparisons are only needed if all more-
+ *      significant digits were equal.
+ */
 bool BigInt::operator<(BigInt rhs) const
 {
-(void) rhs;
-return false;
+    if (digits != rhs.digits) return digits < rhs.digits;
+    for (int i = digits - 1; i >= 0; --i) {
+        if (number[i] > rhs.number[i]) return false;
+        if (number[i] != rhs.number[i]) return true;
+    }
+    return false;
 }
 
 
